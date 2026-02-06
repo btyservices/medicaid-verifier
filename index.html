@@ -335,11 +335,13 @@
                 firstLine += `. PANO OK`;
             }
 
-            // Handle DENT
-            if (dentDate) {
-                firstLine += `/DENT used ${formatDate(dentDate)}`;
-            } else {
-                firstLine += `/DENT OK`;
+            // Handle DENT (only if eligibility code is NOT 50)
+            if (eligibilityCode !== '50') {
+                if (dentDate) {
+                    firstLine += `/DENT used ${formatDate(dentDate)}`;
+                } else {
+                    firstLine += `/DENT OK`;
+                }
             }
 
             // Add agent name
