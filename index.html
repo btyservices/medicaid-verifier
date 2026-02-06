@@ -217,6 +217,12 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="etn">ETN (Optional)</label>
+                    <input type="text" id="etn" placeholder="e.g., 1226565496">
+                    <span class="help-text">Leave empty if no ETN</span>
+                </div>
+
+                <div class="form-group">
                     <label for="adCode">Initial</label>
                     <input type="text" id="adCode" placeholder="e.g., AD" value="AD">
                 </div>
@@ -246,6 +252,15 @@
                     <label for="d0140">D0140 Date</label>
                     <input type="date" id="d0140">
                     <span class="help-text">Leave empty for "not used"</span>
+                </div>
+
+                <!-- Restriction Section -->
+                <div class="section-title">Restriction/Limitation</div>
+
+                <div class="form-group full-width">
+                    <label for="restriction">Restriction (Optional)</label>
+                    <input type="text" id="restriction" placeholder="e.g., Limited to specific services">
+                    <span class="help-text">Leave empty for "No limitation/restriction"</span>
                 </div>
             </div>
 
@@ -279,7 +294,9 @@
             const panoDate = document.getElementById('panoDate').value;
             const dentDate = document.getElementById('dentDate').value;
             const agentName = document.getElementById('agentName').value.trim();
+            const etn = document.getElementById('etn').value.trim();
             const adCode = document.getElementById('adCode').value.trim();
+            const restriction = document.getElementById('restriction').value.trim();
             
             const d0150 = document.getElementById('d0150').value;
             const d0120 = document.getElementById('d0120').value;
@@ -325,8 +342,24 @@
                 firstLine += `/DENT OK`;
             }
 
-            // Add agent name and AD code
-            firstLine += ` (${agentName})**${adCode}`;
+            // Add agent name
+            firstLine += ` (${agentName})`;
+
+            // Add ETN if provided
+            if (etn) {
+                firstLine += ` ETN: ${etn}`;
+            }
+
+            // Add initial/AD code
+            firstLine += `**${adCode}`;
+
+            // Add restriction line
+            let restrictionLine = '';
+            if (restriction) {
+                restrictionLine = restriction;
+            } else {
+                restrictionLine = 'No limitation/restriction';
+            }
 
             // Build procedure codes lines
             const procedureCodes = [];
@@ -356,7 +389,7 @@
             }
 
             // Combine all lines
-            const output = firstLine + '\n' + procedureCodes.join('\n');
+            const output = firstLine + '\n' + restrictionLine + '\n' + procedureCodes.join('\n');
 
             // Display output
             document.getElementById('outputText').textContent = output;
