@@ -279,11 +279,10 @@
     <script>
         function formatDate(dateString) {
             if (!dateString) return null;
-            // Parse the date string directly to avoid timezone issues
+            // Split the date string directly to avoid timezone issues
             const [year, month, day] = dateString.split('-');
             const yearShort = year.slice(-2);
             return `${month}/${day}/${yearShort}`;
-        }
         }
 
         function generateVerification() {
